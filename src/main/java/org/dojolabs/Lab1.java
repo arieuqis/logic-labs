@@ -19,4 +19,33 @@ public class Lab1 {
 		}
 		return false;
 	}
+	
+	public static boolean doesAnyTwoNumbersAddToKRecursively(int[] numbers, int k) {
+		return checkWhetherNumbersAddToK(numbers, k, 0);
+	}
+	
+	public static boolean checkWhetherNumbersAddToK(int[] numbers, int k, int currentNumberIndex) {
+		for (int j = 0; j < numbers.length; j++) {
+			int comparisonNumber = numbers[j];
+			int currentNumber = numbers[currentNumberIndex];
+			boolean numbersCanBeChecked = currentNumber != comparisonNumber;
+			boolean sumOfTheseNumbersAddToK = currentNumber + comparisonNumber == k;
+			
+			if( numbersCanBeChecked && sumOfTheseNumbersAddToK ) {
+				if( sumOfTheseNumbersAddToK ) {
+					System.out.println(String.format("The sum of number %s and %s are equal to %s", currentNumber, comparisonNumber, k));
+					return true;
+				}
+			}
+		}
+		
+		currentNumberIndex++;
+		
+		if( currentNumberIndex < numbers.length ) {
+			return checkWhetherNumbersAddToK(numbers, k, currentNumberIndex);
+		}else {
+			return false;
+		}
+		
+	}
 }
