@@ -20,24 +20,32 @@ public class Lab1Test {
 	@Test
 	public void givenArray_thenShouldReturnTrue1() {
 		int[] array = { 10, 15, 3, 7 };
+		assertTrue(Lab1.doesAnyTwoNumbersAddToK(array, 17));
 		assertTrue(Lab1.doesAnyTwoNumbersAddToKRecursively(array, 17));
+		assertTrue(Lab1.doesAnyTwoNumbersAddToKUsingO1(array, 17));
 	}
 	
 	@Test
 	public void givenArray_thenShouldReturnTrue2() {
 		int[] array = { 10, 15, 3, 7, 30,  60, 13};
+		assertTrue(Lab1.doesAnyTwoNumbersAddToK(array, 45));
 		assertTrue(Lab1.doesAnyTwoNumbersAddToKRecursively(array, 45));
+		assertTrue(Lab1.doesAnyTwoNumbersAddToKUsingO1(array, 45));
 	}
 	
 	@Test
 	public void givenArray_thenShouldReturnTrue3() {
 		int[] array = { 10, 15, 3, 7, 30,  60, 13};
+		assertTrue(Lab1.doesAnyTwoNumbersAddToK(array, 18));
 		assertTrue(Lab1.doesAnyTwoNumbersAddToKRecursively(array, 18));
+		assertTrue(Lab1.doesAnyTwoNumbersAddToKUsingO1(array, 18));
 	}
 	
 	@Test
 	public void givenArray_thenShouldReturnFalse() {
 		int[] array = { 10, 15, 3, 8 };
+		assertFalse(Lab1.doesAnyTwoNumbersAddToK(array, 17));
 		assertFalse(Lab1.doesAnyTwoNumbersAddToKRecursively(array, 17));
+		assertFalse(Lab1.doesAnyTwoNumbersAddToKUsingO1(array, 17));
 	}
 }
