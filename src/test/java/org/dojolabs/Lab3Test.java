@@ -36,29 +36,62 @@ public class Lab3Test {
 	
 	@Test
 	public void givenArray_thenShouldReturnTheFirstPositiveInteger3() {
+		int[] input = { 2, 1, 0 };
+		assertEquals(3,Lab3Test.getLowestPositiveMissingInteger(input));
+	}
+	
+	@Test
+	public void givenArray_thenShouldReturnTheFirstPositiveInteger4() {
 		int[] input = { -1, -2, 0 };
 		assertEquals(1,Lab3Test.getLowestPositiveMissingInteger(input));
 	}
 	
+	@Test
+	public void givenArray_thenShouldReturnTheFirstPositiveInteger5() {
+		int[] input = { 2, 1, 0, 2, 3 };
+		assertEquals(4,Lab3Test.getLowestPositiveMissingInteger(input));
+	}
+	
+	@Test
+	public void givenArray_thenShouldReturnTheFirstPositiveInteger6() {
+		int[] input = { 2, 0, 0, 2, 3 };
+		assertEquals(1,Lab3Test.getLowestPositiveMissingInteger(input));
+	}
+	
+	@Test
+	public void givenArray_thenShouldReturnTheFirstPositiveInteger7() {
+		int[] input = {  };
+		assertEquals(1,Lab3Test.getLowestPositiveMissingInteger(input));
+	}
+	
+	@Test
+	public void givenArray_thenShouldReturnTheFirstPositiveInteger8() {
+		assertEquals(1,Lab3Test.getLowestPositiveMissingInteger(null));
+	}
+	
 	private static int getLowestPositiveMissingInteger(int[] input) {
-		Set<Integer> numbersAlreadyCalculated = new HashSet<>();
-		Set<Integer> lowestIntegers = new HashSet<>(); 
-		
-		for (int i = 0; i < input.length; i++) {
-			if( input[i] > 0 ) {
-				int firstLowerPositiveInteger = input[i] - 1;
-				
-				if( firstLowerPositiveInteger > 0 && !lowestIntegers.contains(firstLowerPositiveInteger) && !numbersAlreadyCalculated.contains(firstLowerPositiveInteger)) {
-					lowestIntegers.add(firstLowerPositiveInteger);
+		if(input != null) {
+			Set<Integer> numbersAlreadyCalculated = new HashSet<>();
+			Set<Integer> lowestIntegers = new HashSet<>();
+			
+			for (int i = 0; i < input.length; i++) {
+				if(lowestIntegers.contains(input[i])) {
+					lowestIntegers.remove(input[i]);
+				}else if( input[i] > 0 ) {
+					int firstLowerPositiveInteger = input[i] - 1;
+					
+					if( firstLowerPositiveInteger > 0 && !lowestIntegers.contains(firstLowerPositiveInteger) && !numbersAlreadyCalculated.contains(firstLowerPositiveInteger)) {
+						lowestIntegers.add(firstLowerPositiveInteger);
+					}
 				}
 				numbersAlreadyCalculated.add(input[i]);
 			}
-		}
-		
-		if( lowestIntegers.size() > 0 ) {
-			return new TreeSet<>(lowestIntegers).first();
-		}else if(numbersAlreadyCalculated.size() > 0){
-			return new TreeSet<>(numbersAlreadyCalculated).last() + 1;
+			
+			if( lowestIntegers.size() > 0 ) {
+				return new TreeSet<>(lowestIntegers).first();
+			}else if(numbersAlreadyCalculated.size() > 0){
+				return new TreeSet<>(numbersAlreadyCalculated).last() + 1;
+			}
 		}
 		
 		return 1;
