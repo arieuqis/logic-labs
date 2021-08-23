@@ -2,9 +2,7 @@ package org.dojolabs;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
@@ -71,32 +69,80 @@ public class Lab3Test {
 	
 	private static int getLowestPositiveMissingInteger(int[] input) {
 		
-		if(input != null) {
-			Set<Integer> numbersAlreadyCalculated = new HashSet<>();
-			Set<Integer> lowestIntegers = new HashSet<>();
+//		if(input != null) {
+//			Set<Integer> numbersAlreadyCalculated = new HashSet<>();
+//			Set<Integer> lowestIntegers = new HashSet<>();
+//			
+//			for (int i = 0; i < input.length; i++) {
+//				if(lowestIntegers.contains(input[i])) {
+//					lowestIntegers.remove(input[i]);
+//				}else if( input[i] > 0 ) {
+//					int firstLowerPositiveInteger = input[i] - 1;
+//					
+//					if( firstLowerPositiveInteger > 0 && !lowestIntegers.contains(firstLowerPositiveInteger) && !numbersAlreadyCalculated.contains(firstLowerPositiveInteger)) {
+//						lowestIntegers.add(firstLowerPositiveInteger);
+//					}
+//				}
+//				numbersAlreadyCalculated.add(input[i]);
+//			}
+//			
+//			if( lowestIntegers.size() > 0 ) {
+//				return new TreeSet<>(lowestIntegers).first();
+//			}else if(numbersAlreadyCalculated.size() > 0){
+//				return new TreeSet<>(numbersAlreadyCalculated).last() + 1;
+//			}
+//		}
+		
+		if(input != null && input.length > 0) {
+			int[] positiveNumbers = new int[input.length];
+			int[] lowestPositiveNumbers = new int[input.length];
+			boolean[] numbersAlreadyCalculated = new boolean[input.length];
+			int positiveIndex = 0;
+			int lowestPositiveIndex = 0;
+			boolean hasPositive = false;
 			
 			for (int i = 0; i < input.length; i++) {
-				if(lowestIntegers.contains(input[i])) {
-					lowestIntegers.remove(input[i]);
-				}else if( input[i] > 0 ) {
+				numbersAlreadyCalculated = realocateArray(numbersAlreadyCalculated, input[i]);
+				
+				if(input[i] > 0 ) {
+					hasPositive = true;
+					positiveNumbers[positiveIndex++] = input[i];
 					int firstLowerPositiveInteger = input[i] - 1;
-					
-					if( firstLowerPositiveInteger > 0 && !lowestIntegers.contains(firstLowerPositiveInteger) && !numbersAlreadyCalculated.contains(firstLowerPositiveInteger)) {
-						lowestIntegers.add(firstLowerPositiveInteger);
+					if( firstLowerPositiveInteger > 0 ){
+						lowestPositiveNumbers[lowestPositiveIndex++] = firstLowerPositiveInteger;
 					}
+					numbersAlreadyCalculated[input[i]] = true;
 				}
-				numbersAlreadyCalculated.add(input[i]);
 			}
 			
-			if( lowestIntegers.size() > 0 ) {
-				return new TreeSet<>(lowestIntegers).first();
-			}else if(numbersAlreadyCalculated.size() > 0){
-				return new TreeSet<>(numbersAlreadyCalculated).last() + 1;
+			if( hasPositive ) {
+				Arrays.sort(lowestPositiveNumbers);
+				for (int i = 0; i < lowestPositiveNumbers.length; i++) {
+					if(lowestPositiveNumbers[i] > 0 && !numbersAlreadyCalculated[lowestPositiveNumbers[i]]) {
+						return lowestPositiveNumbers[i];
+					}
+				}
+				
+				Arrays.sort(positiveNumbers);
+				return positiveNumbers[positiveNumbers.length-1] + 1;
 			}
+			
+			for (int i = 0; i < input.length; i++) {
+				
+			}
+			
 		}
 		
 		return 1;
 	}
 	
+	private static boolean [] realocateArray(boolean[] array, int number) {
+		if( array.length <= number ) {
+			return Arrays.copyOf(array, number);
+		}else {
+			return array;
+		}
+		
+	}
 	
 }
