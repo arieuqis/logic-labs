@@ -2,6 +2,9 @@ package org.dojolabs;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -49,15 +52,47 @@ public class Lab2Test {
 			assertEquals(output[i], productsArray[i]);
 		}
 	}
+	
+	@Test
+	public void givenArray_thenShouldReturnOtherOneWithProducts4() {
+		int[] input = { 3, 0, 1, 0 };
+		int[] output = { 0, 0, 0, 0 };
+		
+		int[] productsArray = Lab2Test.getProductsArray(input);
+		for (int i = 0; i < productsArray.length; i++) {
+			assertEquals(output[i], productsArray[i]);
+		}
+	}
 
 	private static int[] getProductsArray(int[] input) {
 		int[] productsArray = new int[input.length];
+		
+		int product = 1;
+		Set<Integer> indexesWithZero = new HashSet<>(); 
+		
 		for (int i = 0; i < input.length; i++) {
-			productsArray[i] = 1;
-			for (int j = 0; j < input.length; j++) {
-				if( i != j) {
-					productsArray[i] *= input[j];
+			if( input[i] == 0) {
+				indexesWithZero.add(i);
+			}else {
+				product *= input[i];
+			}
+		}
+		
+		for (int i = 0; i < input.length; i++) {
+			if(indexesWithZero.size() > 1) {
+				//if array has more than one item as zero, all product items must be zero
+				productsArray[i] = 0;
+			}else if (indexesWithZero.size() == 1){
+				//this means the array has one item as zero
+				//so if the current item is zero, we do not consider it in the product, and the product itself  is given
+				if( input[i] == 0) {
+					productsArray[i] = product;
+				} else {
+					productsArray[i] = 0;
 				}
+			}else {
+				//here the array does not contain zero, the best scenario
+				productsArray[i] = product / input[i];
 			}
 		}
 		

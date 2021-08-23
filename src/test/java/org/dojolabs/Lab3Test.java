@@ -70,6 +70,7 @@ public class Lab3Test {
 	}
 	
 	private static int getLowestPositiveMissingInteger(int[] input) {
+		
 		if(input != null) {
 			Set<Integer> numbersAlreadyCalculated = new HashSet<>();
 			Set<Integer> lowestIntegers = new HashSet<>();
