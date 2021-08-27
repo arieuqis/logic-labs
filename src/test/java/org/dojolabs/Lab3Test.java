@@ -2,7 +2,8 @@ package org.dojolabs;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -67,78 +68,51 @@ public class Lab3Test {
 		assertEquals(1,Lab3Test.getLowestPositiveMissingInteger(null));
 	}
 	
+	@Test
+	public void givenArray_thenShouldReturnTheFirstPositiveInteger9() {
+		int[] input = { 3, 0, 0, 3, 4 };
+		assertEquals(2,Lab3Test.getLowestPositiveMissingInteger(input));
+	}
+	
 	private static int getLowestPositiveMissingInteger(int[] input) {
 		
-//		if(input != null) {
-//			Set<Integer> numbersAlreadyCalculated = new HashSet<>();
-//			Set<Integer> lowestIntegers = new HashSet<>();
-//			
-//			for (int i = 0; i < input.length; i++) {
-//				if(lowestIntegers.contains(input[i])) {
-//					lowestIntegers.remove(input[i]);
-//				}else if( input[i] > 0 ) {
-//					int firstLowerPositiveInteger = input[i] - 1;
-//					
-//					if( firstLowerPositiveInteger > 0 && !lowestIntegers.contains(firstLowerPositiveInteger) && !numbersAlreadyCalculated.contains(firstLowerPositiveInteger)) {
-//						lowestIntegers.add(firstLowerPositiveInteger);
-//					}
-//				}
-//				numbersAlreadyCalculated.add(input[i]);
-//			}
-//			
-//			if( lowestIntegers.size() > 0 ) {
-//				return new TreeSet<>(lowestIntegers).first();
-//			}else if(numbersAlreadyCalculated.size() > 0){
-//				return new TreeSet<>(numbersAlreadyCalculated).last() + 1;
-//			}
-//		}
-		
-		if(input != null && input.length > 0) {
-			int[] positiveNumbers = new int[input.length];
-			int[] lowestPositiveNumbers = new int[input.length];
-			boolean[] numbersAlreadyCalculated = new boolean[input.length];
-			int positiveIndex = 0;
-			int lowestPositiveIndex = 0;
-			boolean hasPositive = false;
+		if(input != null) {
+			
+			Set<Integer> lowestIntegers = new HashSet<>();
+			Set<Integer> numbersAlreadyProcessed = new HashSet<>();
+			
+			Integer lowestPositiveInteger = null;
+			Integer biggestPositiveInteger = null;
 			
 			for (int i = 0; i < input.length; i++) {
-				numbersAlreadyCalculated = realocateArray(numbersAlreadyCalculated, input[i]);
-				
-				if(input[i] > 0 ) {
-					hasPositive = true;
-					positiveNumbers[positiveIndex++] = input[i];
+				if(lowestIntegers.contains(input[i])) {
+					lowestIntegers.remove(input[i]);
+				}else if( input[i] > 0 ) {
 					int firstLowerPositiveInteger = input[i] - 1;
-					if( firstLowerPositiveInteger > 0 ){
-						lowestPositiveNumbers[lowestPositiveIndex++] = firstLowerPositiveInteger;
+					lowestIntegers.add(input[i]);
+					
+					if( firstLowerPositiveInteger > 0 && !numbersAlreadyProcessed.contains(firstLowerPositiveInteger)) {
+						lowestIntegers.add(firstLowerPositiveInteger);
+						if( lowestPositiveInteger == null || lowestPositiveInteger.intValue() > firstLowerPositiveInteger ) {
+							lowestPositiveInteger = firstLowerPositiveInteger;
+						}
 					}
-					numbersAlreadyCalculated[input[i]] = true;
+					
+					if( biggestPositiveInteger == null || biggestPositiveInteger.intValue() < input[i] ) {
+						biggestPositiveInteger = input[i];
+					}
 				}
+				numbersAlreadyProcessed.add(input[i]);
 			}
 			
-			if( hasPositive ) {
-				Arrays.sort(lowestPositiveNumbers);
-				for (int i = 0; i < lowestPositiveNumbers.length; i++) {
-					if(lowestPositiveNumbers[i] > 0 && !numbersAlreadyCalculated[lowestPositiveNumbers[i]]) {
-						return lowestPositiveNumbers[i];
-					}
-				}
-				
-				Arrays.sort(positiveNumbers);
-				return positiveNumbers[positiveNumbers.length-1] + 1;
+			if( lowestPositiveInteger != null && lowestIntegers.contains(lowestPositiveInteger)) {
+				return lowestPositiveInteger;
+			}else if (biggestPositiveInteger != null ) {
+				return biggestPositiveInteger.intValue() + 1;
 			}
 			
 		}
 		
 		return 1;
 	}
-	
-	private static boolean [] realocateArray(boolean[] array, int number) {
-		if( array.length <= number ) {
-			return Arrays.copyOf(array, number);
-		}else {
-			return array;
-		}
-		
-	}
-	
 }
