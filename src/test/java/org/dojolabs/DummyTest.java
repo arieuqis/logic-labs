@@ -5,25 +5,20 @@ import java.util.Arrays;
 public class DummyTest {
 
 	public static void main(String[] args) {
-		int[] input = changeArray(new int[] {0,1,2,-3,4,-5});
-//		int[] positive = new int[input.length];
-//		int p = 0;
 		
-//		for (int i = 0; i < input.length; i++) {
-//			if( input[i] > 0 ) {
-//				positive[p++] = input[i];
-//			}
-//		}
-//		
-		for (int i = 0; i < input.length; i++) {
-			System.out.println(input[i]);
+		String word = "dog";
+		
+		int length = word.length();
+		int indexSemMinus;
+		int index;
+		
+		for( int level = 0; level < length; level ++) {
+			index = word.charAt(level) - 'a';
+			indexSemMinus = word.charAt(level);
 			
+			System.out.println("Sem minus: " + indexSemMinus);
+			System.out.println("Com minus: " + index);
 		}
-		
-		
 	}
 	
-	private static int [] changeArray(int[] array) {
-		return Arrays.copyOf(array, 100);
-	}
 }
